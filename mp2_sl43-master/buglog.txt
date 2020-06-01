@@ -1,0 +1,69 @@
+MP2.1 bug log
+Author: Songshang Liu (sl43)
+Time period(Not including reading doc time): 
+    MP2.1: 10/4/2019 13:00 --10/7/2019  1:30
+
+Bug 1
+  Type: Algorithm error
+  Description: Moving left and right leads to uncomplete photo.
+  Difficulty: 15 mins; change the loop which writes to buffer.
+  
+Bug 2
+  Type: Algorithm error
+  Description: When showing status message, there's another bar appearing on the top.
+  Difficulty: 30mins; change the position of function.
+  (put the show_statusbar() function the show_screen())
+Bug 3
+  Type: Algorithm error
+  Description: After implenting typed cmd parf, the bar blinks and appears at the top once again.
+  Difficulty: a whole night; rewrite the implenting methods, main reason is the target img Switching.
+
+Bug 4
+  Type: Semantic error (Segmentation FAULT)
+    "Program received signal SIGSEGV, Segmentation fault.
+    [Switching to Thread -1208310080 (LWP 1673)]
+    0x08048da1 in game_loop () at adventure.c:253
+    253                     strcat(typingcmd,"_");"
+   Difficulty: 30-60 mins; rewrite the concatation with a more stupied but easier understanding way.
+
+Bug 5 
+  Type: Semantic error (Segmentation FAULT)
+    Program received signal SIGSEGV, Segmentation fault.
+    [Switching to Thread -1209014592 (LWP 3621)]
+    0x0062eab3 in strcpy () from /lib/libc.so.6
+   Difficulty: 30-60mins; rewrite the copy woth a traditional loop way.
+Bug 6
+  Type: Semantic error
+    Description: When typing several words, the typing command beomes chaos.
+    Difficulty: more than 1h. The reason is that the char[]is not large enough, the stack overflows.
+    Rewrite the interfaces of two functions in text.c. Add a paramenter "size" into it.
+Bug 7
+  Type: Algorithm error
+  Description: the characters are not shown correctly on the status bar.
+  Difficulty: one afternoon. Revise the method of writing to memory( almost revise a function).
+MP2.2
+
+Bug 8
+  Type: Semantic error
+  Description: Segmentation fault with octree
+  Difficulty: 10-30 mins. change the pointer the structure
+Bug 9
+  Type: Semantic error
+  Description: can't build world
+  Difficult: more than one hour. Didn't initialize the necessary attribute 
+Bug 10
+  Type:Algorithm error
+  Description: the color is almost green
+  Difficulty: more than one hour.  misunderstand the color palette. forget to revise 5:6:5 to 6:6:6
+Bug 11
+  Type:Algorithm error
+  Description: the color is almost dimmer
+  Difficulty: more than one afternoon. Didn't understand how qsort() make use of compar function. 
+  Wrong use of return value
+Bug 12
+   Type:Algorithm error
+   Description: the tux can't show the time. something is wrong with the LED Set.
+   Difficulty:  one night+one morning. It's the problem of design. Didn't push the FIFTEEN to the buffer.
+
+Bug 13
+  

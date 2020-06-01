@@ -1,0 +1,107 @@
+CHECKPOINT #1 BUGLOG
+
+BUG1: 
+Author: Jiale He
+Description: the test_interrupt function used to test RTC cause exceptions.
+Solution: I use printf to test rtc, but the default rate is 1024HZ which is too fast and will cause problems.
+So I use a changed color pattern to test RTC instead.
+
+BUG2: 
+Author: Songshang Liu
+Description:  when testing page table's address, it throws page fault exception
+Solution: I add more checkpoint on the address of pde and pte, finding that I didn't 
+ put the page table's address on the first pde's high 20 bits.
+Bug3:
+Author:daosen sun
+Description:when test exceptions for keyboard, it will cause genreral protection exception
+Solution: I use a linkage page and save the registers first and call the keyboard handler , so the handler 
+    won't change the value of registers, and solve the bug.
+
+Bug4:
+Author: Yuding Wang
+Description: keyboard.c: the enter will cause exception
+Solution: change enter in santable to "\b" which means backspace in C.
+
+CHECKPOINT #2 BUGLOG
+Bug1:
+Author:daosen sun
+Description: we print frame0 and frame1.tet correctly and when come to large executable file ,it prints data
+    twice and can't see the last sentence of file.
+Solution: It's because when we add the data block index by 1, we only add this varible by one and dont't updata the
+pointer of block. we solve it by updating the pointer.
+
+Bug2:
+Author:Songshang Liu    
+Description: when we test read_dentry_by_name, we met with open failure and page fault. 
+Solution: for the open failure, we found that when the input fname is longer than 32, the function directly return -1, which
+is not what we expect. For page fault, we use a temporary dentry structure instead of a pointer to dentry.
+
+Bug3
+Author:Yuding Wang
+Description: "\n" is useless, the ;line doesn't change
+Solution: actually '\n' is changing the line bit "\n" is just descript the character
+time: studpid bug but cost a lot of time 
+
+Bug4
+Author:Jiale He
+Description: page fault when testing terminal_read; In the test , I use a local "char * buf" to be the destination buff of read,but
+it cause page falut;
+Solution: It turns out that we should announce the size of buf, use "char buf[128]" instead.
+
+//notes: syserr: fail 4, 6, ;  exception: 7.
+        sigtest: throw page fault
+
+CHECKPOINT #3 BUGLOG
+Bug1:
+Author:Jiale He
+Description: Parse cause page falut
+Solution: It's because I didn't allocate the size of the filename buffer, it is a empty pointer. So we use char filename[size] instead.
+
+Bug2
+Author:daosen sun
+Description: terminal_read is correct and only three characters send into write's buffer
+Solution: don't use pushal, eax should be used to save return value and not same as before.We should save registers individually.
+
+Bug3:
+Author: Yuding Wang
+Description: set double pid in pcb
+Solution:delete 20 mins
+
+Bug4:
+Author: Songshang Liu
+Description: when testing ls, it didn't print files' names one by one
+Solution: We change the return value of ddir_read because it's the position in the buffer. Also, we handle the case when 
+reading till the last file and print fail. We handle it  by adding a check on the index.
+
+CHECKPOINT #4 BUGLOG
+BUG1:
+Author: Yuding Wang
+Description: getarg() i don't know what i need to grep is argument after arg  
+Solution:delete 20 mins
+
+BUG2:
+Author: Jiale He
+Description: The syserr return fail when testing stdin
+Solution: add judge fd == 0 in the terminal_write
+
+CHECKPOINT #5 BUGLOG
+BUG1:
+Author: Jiale He
+Description:  When switch terminals, if we open counter, the counter cannot be independent for each terminal
+Solution: I modified the terminal_write so that it can write the buffer to the correspond page memory.
+
+Bug2:
+Author: Yuding Wang
+Description: change from 1 to 2 will have page fault
+Solution:the array wich store the terminal start form 1 but not 0. 10 mins
+
+
+BUG3:
+Author: Daosen Sun
+Description:  When execute multiple hello in different terminal, page fault will happen
+Solution: change current terminal in execute to scheduled terminal, we should deal with terminal in schedule now.
+
+Bug4:
+Author: Songshang Liu
+Description: After implemeting scheduling, we can't execute "fish" on the second or third terminal.
+Solution: Add a checkpoint in pit handler, if the terminal is not displayed, map the vidmap to the buffer
